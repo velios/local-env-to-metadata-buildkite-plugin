@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -ueo pipefail
+
+ENVPATH=${BUILDKITE_PLUGIN_LOCAL_ENV_TO_METADATA_ENVPATH}
+
+if [ -f $ENVPATH ]; then
+  while IFS='=' read -r key value || [ -n "$key" ]; do
+    # Пропуск пустых строк и комментариев
+    [[ -z "$key" || "$key" =~ ^# ]] && continue
+
+    # Выполнение команды buildkite-agent meta-data set
+    buildkite-agent meta-data set "$key" "$value"
+  done < $ENVPATH
+else
+  echo "$ENVPATH file not found!"
+  exit 1
+fi

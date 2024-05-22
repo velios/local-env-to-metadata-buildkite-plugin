@@ -1,0 +1,8 @@
+name: local-env-to-metadata
+description: Take file with environment variables from repo and upload as buildkite metadata
+author: https://github.com/velios
+configuration:
+  properties:
+    envpath:
+      type: string
+  additionalProperties: false
